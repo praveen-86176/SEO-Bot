@@ -52,7 +52,7 @@ app.get('/api/v1/health/detailed', async (req, res) => {
     services: {
       database: { status: 'error', latencyMs: 0 },
       redis: { status: 'error', latencyMs: 0 },
-      llm: { status: env.ANTHROPIC_API_KEY ? 'configured' : 'missing' },
+      llm: { status: env.GROQ_API_KEY ? 'configured' : 'missing' },
     },
     timestamp: new Date().toISOString(),
   };
