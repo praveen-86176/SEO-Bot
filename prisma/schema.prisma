@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Organization {
+  id               String      @id @default(uuid())
+  name             String
+  website          String
+  industry         String
+  target_audience  String
+  geography        String?
+  services         String[]
+  competitors      String[]
+  current_keywords String[]
+  created_at       DateTime    @default(now())
+  reports          SeoReport[]
+
+  @@map("organizations")
+}
+
+model SeoReport {
+  id                String               @id @default(uuid())
+  org_id            String
+  jobId             String?              // Added for progress tracking
+  status            ReportStatus         @default(PENDING)
+  raw_crawl_data    Json?
+  created_at        DateTime             @default(now())
+  organization      Organization         @relation(fields: [org_id], references: [id])
+  keyword_analysis  KeywordAnalysis?
+  competitor_analysis CompetitorAnalysis[]
+  recommendations   Recommendation[]
+  execution_content ExecutionContent[]
+
+  @@map("seo_reports")
+}
+
+enum ReportStatus {
+  PENDING
+  PROCESSING
+  DONE
+  FAILED
+}
+
+model KeywordAnalysis {
+  id                 String    @id @default(uuid())
+  report_id          String    @unique
+  primary_keywords   String[]
+  secondary_keywords String[]
+  longtail_keywords  String[]
+  reasoning          Json?
+  report             SeoReport @relation(fields: [report_id], references: [id])
+
+  @@map("keyword_analyses")
+}
+
+model CompetitorAnalysis {
+  id             String    @id @default(uuid())
+  report_id      String
+  competitor_url String
+  data           Json
+  report         SeoReport @relation(fields: [report_id], references: [id])
+
+  @@map("competitor_analyses")
+}
+
+model Recommendation {
+  id                String             @id @default(uuid())
+  report_id         String
+  category          RecommendationCategory
+  priority          Priority
+  title             String
+  description       String
+  impact_score      Int                @default(50)
+  effort            Effort
+  timeframe         String?
+  action_items      String[]
+  success_metrics   String[]
+  tools_suggested   String[]
+  reasoning         String?
+  report            SeoReport          @relation(fields: [report_id], references: [id])
+  execution_content ExecutionContent[]
+
+  @@map("recommendations")
+}
+
+enum RecommendationCategory {
+  KEYWORD
+  CONTENT
+  BACKLINK
+  TECHNICAL
+}
+
+enum Priority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum Effort {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model ExecutionContent {
+  id                String           @id @default(uuid())
+  recommendation_id String
+  report_id         String
+  type              ContentType
+  platform          String
+  platform_url      String?
+  content           String
+  hashtags          String[]
+  status            ExecutionStatus  @default(DRAFT)
+  created_at        DateTime         @default(now())
+  recommendation    Recommendation   @relation(fields: [recommendation_id], references: [id])
+  report            SeoReport        @relation(fields: [report_id], references: [id])
+
+  @@map("execution_contents")
+}
+
+enum ContentType {
+  BLOG_POST_IDEA
+  BLOG_COMMENT
+  SOCIAL_POST
+  DIRECTORY_SUBMISSION
+  OUTREACH_EMAIL
+  FORUM_POST
+}
+
+enum ExecutionStatus {
+  DRAFT
+  APPROVED
+  REJECTED
+}

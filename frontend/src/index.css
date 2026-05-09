@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #818cf8;
+  --accent: #8b5cf6;
+  --accent-light: #a78bfa;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+  --bg-page: #09090b;
+  --bg-surface: #121217;
+  --bg-surface-raised: #18181b;
+  --border-surface: rgba(255, 255, 255, 0.08);
+  --bg-card: #0c0c0e;
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #52525b;
+}
+
+html, body {
+  background-color: #09090b !important;
+  color: #fafafa !important;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  background-color: #09090b;
+  min-height: 100vh;
+}
+
+@layer components {
+  .grid-bg {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .radial-glow {
+    background: radial-gradient(circle at 50% -20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);
+  }
+
+  .glass-card {
+    background: rgba(12, 12, 14, 0.7);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  .input-obsidian {
+    @apply w-full h-12 px-4 rounded-xl border border-white/[0.05] bg-white/[0.02] text-white placeholder:text-zinc-500 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: apex-gradient 10s ease infinite;
+}
+
+@keyframes apex-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
