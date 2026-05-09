@@ -140,7 +140,7 @@ This layer uses **Prompt Engineering** to architect platform-specific content:
 ---
 
 ## 10. Deployment
-- **Frontend URL**: [Pending Deployment]
+- **Frontend URL**: [https://astrarank.netlify.app/](https://astrarank.netlify.app/)
 - **Backend URL**: [https://seo-bot-1.onrender.com](https://seo-bot-1.onrender.com)
 
 ---
